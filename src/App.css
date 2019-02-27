@@ -1,0 +1,9 @@
+.main-container {
+  background-image: url("assets/images/Bankoboev.Ru_fon_5441.jpg");
+  background-repeat: repeat;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
