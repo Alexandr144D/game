@@ -36,7 +36,7 @@ class TimeSetComponent extends React.Component {
 
 const mapStateToProps = ( state ) => {
     return {
-        timeValue: state.gameReducer.timeValue
+        timeValue: state.gameReducer.timeValue,
     }
 };
 

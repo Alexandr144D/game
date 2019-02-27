@@ -9,8 +9,8 @@ export const onFailToClickSquare = (index) => (dispatch) => {
     return dispatch({ type: constants.CHANGE_SQUARE_COLOR_FAIL, index: index })
 };
 
-export const startTheGame = (index) => (dispatch) => {
-    return dispatch({ type: constants.START_THE_GAME, index: index})
+export const startTheGame = (index, id) => (dispatch) => {
+    return dispatch({ type: constants.START_THE_GAME, index: index, id: id})
 }
 
 export const finishTheGame = () => (dispatch) => {

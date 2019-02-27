@@ -12,31 +12,40 @@ class StartGameComponent extends React.Component {
     }
 
     interval = () => {
-        let random = [8,2,1,6,5,4,7,0,9,3].sort(function() {
+        let array = [];
+        for(let i = 1; i <= 100; i++){
+            array.push(i)
+        }
+
+        let random = array.sort(function() {
             return .5 - Math.random();
         });
 
-        random.unshift(10)
+        random.unshift(100);
 
-        if( !this.props.timeValue ) {
+        if( !this.props.timeValue || this.props.timeValue > 10000 ) {
             return
         }
-        if( this.props.timeValue > 10000 ) {
-            return
-        }
+
         let timerId = setInterval(() => {
-            this.props.onStartGame(random.pop());
+            this.props.onStartGame(random.pop(), timerId);
 
             if(this.props.history.length > 1) {
                 let index = this.props.history[this.props.history.length - 2];
+
                 if(!this.props.backgroundColors[index].checked) {
-                    this.props.onFailToClick(index)
+                    this.props.onFailToClick(index);
+
+                    if(this.props.computerScore === 10) {
+                        clearInterval(timerId);
+                        this.props.onFinishGame();
+                    }
                 }
             }
             if( !random.length ) {
+                this.props.onFailToClick(this.props.history[this.props.history.length - 1]);
                 this.props.onFinishGame();
                 clearInterval(timerId);
-                this.props.onFailToClick(this.props.history[this.props.history.length - 1])
             }
         },this.props.timeValue)
     };
@@ -54,14 +63,16 @@ const mapStateToProps = (state) => {
     return {
         history: state.gameReducer.history,
         timeValue: state.gameReducer.timeValue,
-        backgroundColors: state.gameReducer.backgroundColors,
+        playerScore: state.gameReducer.playerScore,
+        computerScore: state.gameReducer.computerScore,
+        backgroundColors: state.gameReducer.backgroundColors
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onFinishGame: () => dispatch(finishTheGame()),
-        onStartGame: (index) => dispatch(startTheGame(index)),
+        onStartGame: (index, id) => dispatch(startTheGame(index, id)),
         onFailToClick: (index) => dispatch(onFailToClickSquare(index)),
     }
 };
@@ -71,6 +82,8 @@ StartGameComponent.propTypes = {
     timeValue: PropTypes.string,
     backgroundColors: PropTypes.array,
     onFailToClick: PropTypes.func,
+    computerScore:PropTypes.number,
+    playerScore: PropTypes.number,
     onFinishGame: PropTypes.func,
     onStartGame: PropTypes.func,
     interval: PropTypes.func,

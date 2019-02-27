@@ -12,12 +12,13 @@ const squareFeatures = function(n) {
 };
 
 const initialGameState = {
-    backgroundColors: squareFeatures(10),
+    backgroundColors: squareFeatures(100),
     gameInProcess: false,
     currentIndex: null,
     computerScore: 0,
     playerScore: 0,
     timeValue: '',
+    timerId: 0,
     history: [],
     modal: false,
 };
@@ -42,7 +43,7 @@ const gameReducer = (state = initialGameState, action) => {
 
             return { ...state,
                 backgroundColors: newFailArray,
-                computerScore: action.index === 10 ? state.computerScore : state.computerScore + 1
+                computerScore: state.computerScore + 1
             };
 
         case constants.START_THE_GAME:
@@ -54,11 +55,11 @@ const gameReducer = (state = initialGameState, action) => {
 
             return {
                 ...state,
-                backgroundColors:
-                intervalChangeArray,
+                backgroundColors: intervalChangeArray,
+                currentIndex: action.index,
                 gameInProcess: true,
                 history: newHistory,
-                currentIndex: action.index
+                timerId: action.id,
             };
 
         case constants.FINISH_THE_GAME:
@@ -77,13 +78,14 @@ const gameReducer = (state = initialGameState, action) => {
         case constants.RESET_GAME_PROCESS:
             return {
                 ...state,
-                backgroundColors: squareFeatures(10),
+                backgroundColors: squareFeatures(100),
                 gameInProcess: false,
                 currentIndex: null,
                 computerScore: 0,
                 playerScore: 0,
                 timeValue: '',
                 history: [],
+                timerId: 0,
                 modal: false
             };
 
