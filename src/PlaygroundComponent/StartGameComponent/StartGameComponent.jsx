@@ -12,6 +12,8 @@ class StartGameComponent extends React.Component {
     }
 
     interval = () => {
+        if(this.props.gameInProcess) { return }
+
         let array = [];
         for(let i = 1; i <= 100; i++){
             array.push(i)
@@ -64,6 +66,7 @@ const mapStateToProps = (state) => {
         history: state.gameReducer.history,
         timeValue: state.gameReducer.timeValue,
         playerScore: state.gameReducer.playerScore,
+        gameInProcess: state.gameReducer.gameInProcess,
         computerScore: state.gameReducer.computerScore,
         backgroundColors: state.gameReducer.backgroundColors
     }

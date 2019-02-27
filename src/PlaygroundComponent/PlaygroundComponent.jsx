@@ -41,8 +41,7 @@ class PlaygroundComponent extends React.Component {
                 <Modal open={modal} onClose={() => this.props.onReset()} center>
                     <h2>
                         {
-                            playerScore > computerScore ? 'You won the game!'
-                                : playerScore === computerScore ? 'Both are winners!' : 'You lost the game!'
+                            playerScore > computerScore ? 'You won the game!' : 'You lost the game!'
                         }
                     </h2>
                 </Modal>
